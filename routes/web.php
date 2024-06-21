@@ -6,7 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 // Route::get('/dashboard', function () {
