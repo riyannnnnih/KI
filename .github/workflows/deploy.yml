@@ -1,0 +1,43 @@
+name: Deploy Laravel to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Sesuaikan dengan branch utama proyek Anda
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2.4'  # Sesuaikan dengan versi PHP yang Anda gunakan
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.12.2'  # Sesuaikan dengan versi Node.js yang Anda gunakan
+
+      - name: Install NPM dependencies
+        run: npm install
+
+      - name: Build assets
+        run: npm run production
+
+      - name: Export static files
+        run: php artisan export
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public  # Sesuaikan dengan direktori hasil export
+
