@@ -30,6 +30,9 @@ jobs:
       - name: Install NPM dependencies
         run: npm install
 
+      - name: Ensure Vite is executable
+        run: chmod +x ./node_modules/.bin/vite
+
       - name: Build assets
         run: npm run build
 
